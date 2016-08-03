@@ -155,13 +155,55 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMajorDiagonalConflictAt: function(i, j) {
+      var checkDiag = function(i, j) {
+        var rowIncr = i + 1;
+        var colIncr = j + 1;
+        if ( board[rowIncr] !== undefined ) {
+          if ( board[colIncr] !== undefined ) {
+            var next = board[rowIncr][colIncr];
+            if ( next ) {
+              return true;
+            } else {
+              return checkDiag(rowIncr, colIncr);
+            }
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      };
+
+      var board = this._currentAttributes;
+      var n = board.n;
+      var element = board[i][j];
+      if ( element && checkDiag(i, j) ) {
+        return true;
+      }
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var board = this._currentAttributes;
+      var n = board.n;
+      var currBool = false;
+
+      // traverse all rows
+      for ( var i = 0; i < n; i++ ) {
+        for ( var j = 0; j < n; j++ ) {
+          var element = board[i][j];
+
+          // if we come across a 1, test all diagonals
+          if ( element ) {
+            currBool = this.hasMajorDiagonalConflictAt(i, j);
+            if ( currBool ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
     },
 
 

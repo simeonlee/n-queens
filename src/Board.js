@@ -96,7 +96,6 @@
     hasAnyRowConflicts: function() {
       var board = this._currentAttributes;
       var n = board.n;
-      var currBool;
       for ( var i = 0; i < n; i++ ) {
         if ( this.hasRowConflictAt(i) ) {
           return true;
@@ -112,12 +111,42 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var board = this._currentAttributes;
+      var n = board.n;
+      var count = 0;
+
+      // transpose array for easy manipulation
+      var t = [];
+      for ( var i = 0; i < n; i++ ) {
+        t[i] = []; // insert new array
+        for ( var j = 0; j < n; j++ ) {
+          t[i][j] = board[j][i];
+        }
+      }
+
+      // column will just be row in the transposed array
+      var col = t[colIndex];
+      for ( var k = 0; k < col.length; k++ ) {
+        count += col[k];
+      }
+      if (count > 1) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var board = this._currentAttributes;
+      var n = board.n;
+      
+      for ( var k = 0; k < n; k++ ) {
+        if ( this.hasColConflictAt(k) ) {
+          return true;
+        }
+      }
+      return false;
     },
 
 

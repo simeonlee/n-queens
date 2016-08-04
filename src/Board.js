@@ -79,24 +79,19 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      var board = this._currentAttributes;
-      var row = board[rowIndex];
+      var row = this.get(rowIndex);
       var count = 0;
       for ( var i = 0; i < row.length; i++ ) {
         count += row[i];
       }
-      if (count > 1) {
-        return true;
-      } else {
-        return false;
-      }
+      return count > 1;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      var board = this._currentAttributes;
-      var n = board.n;
-      for ( var i = 0; i < n; i++ ) {
+      var size = this.get('n');
+
+      for ( var i = 0; i < size; i++ ) {
         if ( this.hasRowConflictAt(i) ) {
           return true;
         }
@@ -111,37 +106,21 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      var board = this._currentAttributes;
-      var n = board.n;
+      var size = this.get('n');
       var count = 0;
 
-      // transpose array for easy manipulation
-      var t = [];
-      for ( var i = 0; i < n; i++ ) {
-        t[i] = []; // insert new array
-        for ( var j = 0; j < n; j++ ) {
-          t[i][j] = board[j][i];
-        }
+      for ( var k = 0; k < size; k++ ) {
+        var row = this.get(k);
+        count += row[colIndex];
       }
-
-      // column will just be row in the transposed array
-      var col = t[colIndex];
-      for ( var k = 0; k < col.length; k++ ) {
-        count += col[k];
-      }
-      if (count > 1) {
-        return true;
-      } else {
-        return false;
-      }
+      return count > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      var board = this._currentAttributes;
-      var n = board.n;
+      var size = this.get('n');
       
-      for ( var k = 0; k < n; k++ ) {
+      for ( var k = 0; k < size; k++ ) {
         if ( this.hasColConflictAt(k) ) {
           return true;
         }

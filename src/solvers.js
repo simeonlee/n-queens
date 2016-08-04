@@ -33,40 +33,39 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
+
+  
   var solutions = [];
   var board = new Board({n: n});
 
-  var buildPossib = function (row, matrix) {
+  var buildPossib = function (row, board) {
 
     // If we reach the end successfully, push the solution to solutions array
     if (row === n) {
-      solutions.push(matrix);
+      solutions.push(board);
       return;
     }
-
-    var x = matrix.slice();
-    var testing = new Board(x);
 
     // Iterate over columns in the selected row
     for ( var j = 0; j < n; j++ ) {
 
-      testing.get(row)[j] = 1;
       // Create a variant of the board with placement of piece at new col
-      // Row variable is set at function invocation
+      // 'Row' variable is set at function invocation
+      board.get(row)[j] = 1;
 
-      if ( !testing.hasAnyRooksConflicts() ) {
+      if ( !board.hasAnyRooksConflicts() ) {
 
         // If no conflict, call the function again to build upon that board
-        buildPossib(row + 1, testing.rows());
+        buildPossib(row + 1, board);
 
       }
 
-      // Reset back to 0 so that the next iteration of the loop can move one over
-      testing.get(row)[j] = 0;
+      // Reset back to 0 so that the next iteration of the loop can move piece one space over
+      board.get(row)[j] = 0;
     }
   };
 
-  buildPossib(0, board.rows());
+  buildPossib(0, board);
   var solutionCount = solutions.length;
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
@@ -131,37 +130,34 @@ window.countNQueensSolutions = function(n) {
   var solutions = [];
   var board = new Board({n: n});
 
-  var buildPossib = function (row, matrix) {
+  var buildPossib = function (row, board) {
 
     // If we reach the end successfully, push the solution to solutions array
     if (row === n) {
-      solutions.push(matrix);
+      solutions.push(board);
       return;
     }
-
-    var x = matrix.slice();
-    var testing = new Board(x);
 
     // Iterate over columns in the selected row
     for ( var j = 0; j < n; j++ ) {
 
-      testing.get(row)[j] = 1;
       // Create a variant of the board with placement of piece at new col
-      // Row variable is set at function invocation
+      // 'Row' variable is set at function invocation
+      board.get(row)[j] = 1;
 
-      if ( !testing.hasAnyQueensConflicts() ) {
+      if ( !board.hasAnyQueensConflicts() ) {
 
         // If no conflict, call the function again to build upon that board
-        buildPossib(row + 1, testing.rows());
+        buildPossib(row + 1, board);
 
       }
 
-      // Reset back to 0 so that the next iteration of the loop can move one over
-      testing.get(row)[j] = 0;
+      // Reset back to 0 so that the next iteration of the loop can move piece one space over
+      board.get(row)[j] = 0;
     }
   };
 
-  buildPossib(0, board.rows());
+  buildPossib(0, board);
   var solutionCount = solutions.length;
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;

@@ -156,30 +156,23 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(i, j) {
-      var checkDiag = function(i, j) {
-        var rowIncr = i + 1;
-        var colIncr = j + 1;
-        if ( board[rowIncr] !== undefined ) {
-          if ( board[colIncr] !== undefined ) {
-            var next = board[rowIncr][colIncr];
-            if ( next ) {
-              return true;
-            } else {
-              return checkDiag(rowIncr, colIncr);
-            }
+      var board = this._currentAttributes;
+      var nextRow = i + 1;
+      var nextCol = j + 1;
+
+      if ( board[nextRow] !== undefined ) {
+        if ( board[nextRow][nextCol] !== undefined ) {
+          var next = board[nextRow][nextCol];
+          if ( next === 1 ) {
+            return true;
           } else {
-            return false;
+            return this.hasMajorDiagonalConflictAt(nextRow, nextCol);
           }
         } else {
           return false;
         }
-      };
-
-      var board = this._currentAttributes;
-      var n = board.n;
-      var element = board[i][j];
-      if ( element && checkDiag(i, j) ) {
-        return true;
+      } else {
+        return false;
       }
     },
 
@@ -195,9 +188,8 @@
           var element = board[i][j];
 
           // if we come across a 1, test all diagonals
-          if ( element ) {
-            currBool = this.hasMajorDiagonalConflictAt(i, j);
-            if ( currBool ) {
+          if ( element === 1 ) {
+            if ( this.hasMajorDiagonalConflictAt(i, j) ) {
               return true;
             }
           }
@@ -213,30 +205,23 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(i, j) { // minorDiagonalColumnIndexAtFirstRow
-      var checkDiag = function(i, j) {
-        var rowIncr = i - 1;
-        var colIncr = j + 1;
-        if ( board[rowIncr] !== undefined ) {
-          if ( board[colIncr] !== undefined ) {
-            var next = board[rowIncr][colIncr];
-            if ( next ) {
-              return true;
-            } else {
-              return checkDiag(rowIncr, colIncr);
-            }
+      var board = this._currentAttributes;
+      var prevRow = i - 1;
+      var nextCol = j + 1;
+
+      if ( board[prevRow] !== undefined ) {
+        if ( board[prevRow][nextCol] !== undefined ) {
+          var next = board[prevRow][nextCol];
+          if ( next === 1 ) {
+            return true;
           } else {
-            return false;
+            return this.hasMinorDiagonalConflictAt(prevRow, nextCol);
           }
         } else {
           return false;
         }
-      };
-
-      var board = this._currentAttributes;
-      var n = board.n;
-      var element = board[i][j];
-      if ( element && checkDiag(i, j) ) {
-        return true;
+      } else {
+        return false;
       }
     },
 
@@ -252,9 +237,8 @@
           var element = board[i][j];
 
           // if we come across a 1, test all diagonals
-          if ( element ) {
-            currBool = this.hasMinorDiagonalConflictAt(i, j);
-            if ( currBool ) {
+          if ( element === 1) {
+            if ( this.hasMinorDiagonalConflictAt(i, j) ) {
               return true;
             }
           }

@@ -155,43 +155,28 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      var board = this._currentAttributes;
-      var n = board.n;
-
-      var count = 0;
-
-      for ( var i = 0; i < n; i++ ) {
-        for ( var j = 0; j < n; j++ ) {
-          var element = board[i][j];
-          if ( element === 1 ) {
-            if ( majorDiagonalColumnIndexAtFirstRow === this._getFirstRowColumnIndexForMajorDiagonalOn(i, j) ) {
-              count++;
-            }
-          }
-        }
-      }
-
-      if ( count > 1 ) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {},
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var board = this._currentAttributes;
       var n = board.n;
+      var storage = {};
 
       // traverse all elements
-      for ( var i = 0; i < n; i++ ) {
-        for ( var j = 0; j < n; j++ ) {
-          var element = board[i][j];
-          if ( element === 1 ) {
+      for ( var i = 0; i < n; i++ ) { // same
+        for ( var j = 0; j < n; j++ ) { // same
+          var element = board[i][j]; // same
+          if ( element === 1 ) { // same
+
             var majorDiagonalColumnIndexAtFirstRow = this._getFirstRowColumnIndexForMajorDiagonalOn(i, j);
-            if ( this.hasMajorDiagonalConflictAt(majorDiagonalColumnIndexAtFirstRow) ) {
+
+            if (storage[majorDiagonalColumnIndexAtFirstRow] === true) {
+              // If it already has the property, we know that we have found more than one at that diagonal
               return true;
+            } else {
+              // Instantiate the property in storage to track existence
+              storage[majorDiagonalColumnIndexAtFirstRow] = true;
             }
           }
         }
@@ -205,43 +190,28 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      var board = this._currentAttributes;
-      var n = board.n;
-
-      var count = 0;
-
-      for ( var i = 0; i < n; i++ ) {
-        for ( var j = 0; j < n; j++ ) {
-          var element = board[i][j];
-          if ( element === 1 ) {
-            if ( minorDiagonalColumnIndexAtFirstRow === this._getFirstRowColumnIndexForMinorDiagonalOn(i, j) ) {
-              count++;
-            }
-          }
-        }
-      }
-
-      if ( count > 1 ) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {},
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var board = this._currentAttributes;
       var n = board.n;
+      var storage = {};
 
       // traverse all elements
-      for ( var i = 0; i < n; i++ ) {
-        for ( var j = 0; j < n; j++ ) {
-          var element = board[i][j];
-          if ( element === 1 ) {
+      for ( var i = 0; i < n; i++ ) { // same
+        for ( var j = 0; j < n; j++ ) { // same
+          var element = board[i][j]; // same
+          if ( element === 1 ) { // same
+
             var minorDiagonalColumnIndexAtFirstRow = this._getFirstRowColumnIndexForMinorDiagonalOn(i, j);
-            if ( this.hasMinorDiagonalConflictAt(minorDiagonalColumnIndexAtFirstRow) ) {
+
+            if (storage[minorDiagonalColumnIndexAtFirstRow] === true) {
+              // If it already has the property, we know that we have found more than one at that diagonal
               return true;
+            } else {
+              // Instantiate the property in storage to track existence
+              storage[minorDiagonalColumnIndexAtFirstRow] = true;
             }
           }
         }

@@ -74,7 +74,7 @@ window.findNQueensSolution = function(n) {
     return _.map(board.rows(), function(row) {
       return row.slice();
     });
-  }) || board.rows();
+  }) || board.rows(); // Handles n = 2, n = 3 where there is no solution and we need to return an empty matrix
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
